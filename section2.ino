@@ -38,7 +38,7 @@ int turnSpeed = 120;
 // Distance threshold (cm) to trigger obstacle avoidance
 int obstacleDistance = 20;
 
-int irThreshold = 400;
+int irThreshold = 400; // determining when it is too left or too right
 
 // ================= SETUP =================
 void setup() {
@@ -65,8 +65,8 @@ void setup() {
   clawServo.attach(CLAW_PIN);
 
   // Initial robot configuration
-  armUp();      // Lift arm so it doesn't drag
-  clawOpen();   // Open claw by default
+  //armUp();      // Lift arm so it doesn't drag
+  //clawOpen();   // Open claw by default
 }
 
 
@@ -98,7 +98,8 @@ void followPath() {
 
   int left = analogRead(IR_LEFT);
   int right = analogRead(IR_RIGHT);
-
+  bool leftDetect = left < irThreshold;
+  bool rightDetect = right < irThreshold;
   // Both sensors see the path → go straight
   if (left == LOW && right == LOW) {
     moveForward(100);  // Move forward for 100ms
@@ -138,11 +139,24 @@ void followPath() {
 // ================= OBSTACLE AVOIDANCE =================
 void avoidObstacle() {
 
-  // Turn left to avoid obstacle for 400ms
-  turnLeft(400);
+  // Immediately stop to avoid collision
+  stopMotors();
+  delay(200);
 
-  
+  // Turn left to avoid obstacle
+  turnLeft();
+  delay(400);
 
+  moveForward();
+  delay(300);
+
+  turnRight();
+  delay(400);
+
+  moveForward();
+  delay(300);
+
+  stopMotors();
 }
 
 
