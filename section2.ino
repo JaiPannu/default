@@ -39,8 +39,8 @@ int sweepCount = 0;
 #include <Servo.h>
 Servo armServo;            // Controls arm up/down
 Servo clawServo;           // Controls claw open/close
-const int ARM_PIN  = 10; // Fixed
-const int CLAW_PIN = 11; // Fixed
+const int ARM_PIN  = 12; 
+const int CLAW_PIN = 13; 
 
 // ================= MOVEMENT PARAMETERS =================
 // Base forward speed (tune for stability vs speed)
@@ -235,9 +235,8 @@ bool redDetected() {
 }
 
 // Read IR Right function
-bool readIRRight() {
-  int value = analogRead(IR_RIGHT);
-  return value < irThreshold;  // closer = smaller value
+void readIRRight(){
+  return
 }
 
 
