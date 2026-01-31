@@ -13,7 +13,6 @@ const int IN4 = 11;  // Right motor direction pin 2
 // Currently used as digital sensors (HIGH / LOW)
 // You mentioned using IR for distance — if these are analog distance IR sensors,
 // they should later be read using analogRead()
-const int IR_LEFT  = A0;   // Left IR sensor
 const int IR_RIGHT = A1;   // Right IR sensor
 
 // ================= ULTRASONIC SENSOR =================
