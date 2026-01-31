@@ -38,7 +38,7 @@ int turnSpeed = 120;
 // Distance threshold (cm) to trigger obstacle avoidance
 int obstacleDistance = 20;
 
-int irThreshold = 400;
+int irThreshold = 400; // determining when it is too left or too right
 
 // ================= SETUP =================
 void setup() {
@@ -98,7 +98,8 @@ void followPath() {
 
   int left = analogRead(IR_LEFT);
   int right = analogRead(IR_RIGHT);
-
+  bool leftDetect = left < irThreshold;
+  bool rightDetect = right < irThreshold;
   // Both sensors see the path → go straight
   if (left == LOW && right == LOW) {
     moveForward();
