@@ -30,7 +30,7 @@ int cruiseSpeed = 180;  // Normal driving
 int rampSpeed = 255;    // Max power for the shot approach
 
 // IR Thresholds
-// Adjust this! Usually: White < 200, Black > 600
+// Adjust this!
 int blackThreshold = 600; 
 
 // State tracking
@@ -114,28 +114,17 @@ void followLine(int left, int right) {
 
 // ================= THE "BIATHLON" SHOT =================
 void shootBall() {
-  // 1. Back up to get runway space
-  moveBackward();
-  delay(800); 
+  // 1. Release the ball and prepare to push
+  armDown();      // Lower arm to pushing position
+  clawOpen();     // Release the grip
+  delay(500); 
+
+  // 2. The "Bump": Move forward at cruise speed to roll the ball
+  moveForward(cruiseSpeed);
+  delay(800);     // Adjust this duration based on how far you want to roll it
+
+  // 3. Stop
   stopMotors();
-  delay(200);
-
-  // 2. Drive Forward at MAX SPEED (Kinetic Energy)
-  armDown(); // Lower arm slightly for better center of mass
-  moveForward(255); // MAX SPEED
-  delay(600); // Adjust time based on distance to wall
-
-  // 3. THE SNAP: Hard Stop + Arm Swing
-  // Stop motors abruptly (Active Braking)
-  digitalWrite(ENA, HIGH); 
-  digitalWrite(IN1, LOW); digitalWrite(IN2, LOW); // Brake mode on some drivers
-  digitalWrite(ENB, HIGH); 
-  digitalWrite(IN3, LOW); digitalWrite(IN4, LOW);
-  
-  // INSTANTLY swing arm up to fling ball
-  armThrow(); 
-  
-  delay(1000); // Celebrate
 }
 
 // ================= MOTOR FUNCTIONS =================
