@@ -167,7 +167,16 @@ void avoidObstacle() {
     moveForward(2);
   }
   moveForward(50);
+  turnRight(400);
 
+  while(readIRRight()){
+    moveForward(2);
+  }
+
+  moveForward(50);
+  turnRight(400);
+
+  
 
   //moveForward(300); // move forward
 
