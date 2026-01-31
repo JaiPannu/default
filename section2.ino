@@ -102,6 +102,12 @@ void loop() {
   // Measure distance to obstacle in front
   long distance = readUltrasonic();
 
+  // priority 0: adjust speed based on distance
+  baseSpeed = distance + 100;
+  if (baseSpeed > 255) {
+    baseSpeed = 255; // Cap at max PWM value
+  }
+
   // PRIORITY 1: obstacle avoidance
   // If something is detected within threshold distance,
   // obstacle logic overrides path following
