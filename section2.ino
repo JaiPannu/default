@@ -21,6 +21,13 @@ const int IR_RIGHT = A1;   // Right IR sensor
 const int TRIG_PIN = 2;    // Sends ultrasonic pulse
 const int ECHO_PIN = 3;    // Receives reflected pulse
 
+// Color sensor TCS3200
+const int s0 = 1;
+const int s1 = 3;
+const int s2 = 7;
+const int s3 = 12;
+const int out = 13;
+
 // ================= SERVO MOTORS =================
 #include <Servo.h>
 Servo armServo;            // Controls arm up/down
@@ -60,6 +67,17 @@ void setup() {
   pinMode(TRIG_PIN, OUTPUT);
   pinMode(ECHO_PIN, INPUT);
 
+  // color sensor pins
+  pinMode(s0,OUTPUT);    //pin modes
+  pinMode(s1,OUTPUT);
+  pinMode(s2,OUTPUT);
+  pinMode(s3,OUTPUT);
+  pinMode(out,INPUT);
+
+  Serial.begin(9600);
+  digitalWrite(s0,HIGH);
+  digitalWrite(s1,HIGH);
+
   // Attach servos to pins
   armServo.attach(ARM_PIN);
   clawServo.attach(CLAW_PIN);
@@ -86,6 +104,7 @@ void loop() {
     // PRIORITY 2: follow the path
     followPath();
   }
+
 }
 
 
