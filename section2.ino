@@ -83,8 +83,8 @@ void setup() {
   clawServo.attach(CLAW_PIN);
 
   // Initial robot configuration
-  //armUp();      // Lift arm so it doesn't drag
-  //clawOpen();   // Open claw by default
+  //moveArm(60);      // Lift arm so it doesn't drag
+  //moveClaw(90);     // Open claw by default
 }
 
 
@@ -307,18 +307,12 @@ void stopMotors(int duration) {
 
 
 // ================= ARM & CLAW CONTROL =================
-void armUp() {
-  armServo.write(60);   // Adjust angle as needed
+// Arm and claw control now use parameterized angles for flexibility
+
+void moveArm(int angle) {
+  armServo.write(angle);   // Set arm to desired angle
 }
 
-void armDown() {
-  armServo.write(120);  // Adjust angle as needed
-}
-
-void clawOpen() {
-  clawServo.write(90);
-}
-
-void clawClose() {
-  clawServo.write(30);
+void moveClaw(int angle) {
+  clawServo.write(angle);  // Set claw to desired angle
 }
