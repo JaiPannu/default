@@ -114,17 +114,35 @@ void followLine(int left, int right) {
 
 // ================= THE "BIATHLON" SHOT =================
 void shootBall() {
-  // 1. Release the ball and prepare to push
-  armDown();      // Lower arm to pushing position
-  clawOpen();     // Release the grip
-  delay(500); 
+  // push/roll approach
 
-  // 2. The "Bump": Move forward at cruise speed to roll the ball
+  // // 1. Release the ball and prepare to push
+  // armDown();      // Lower arm to pushing position
+  // clawOpen();     // Release the grip
+  // delay(500); 
+
+  // // 2. The "Bump": Move forward at cruise speed to roll the ball
+  // moveForward(cruiseSpeed);
+  // delay(800);     // Adjust this duration based on how far you want to roll it
+
+  // // 3. Stop
+  // stopMotors();
+
+  // wait we can just place this thing? approach
+
+  // move forward exactly 26 cm (do calcs later)
   moveForward(cruiseSpeed);
-  delay(800);     // Adjust this duration based on how far you want to roll it
-
-  // 3. Stop
+  delay(800); // CHANGE TS
   stopMotors();
+
+  // place ball down
+  armDown();
+  clawOpen();
+
+  // go back just cuz yea
+  moveBackward(cruiseSpeed);
+  delay(800); // CHANGE TS (optional)
+
 }
 
 // ================= MOTOR FUNCTIONS =================
