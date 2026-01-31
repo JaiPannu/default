@@ -38,6 +38,7 @@ int turnSpeed = 120;
 // Distance threshold (cm) to trigger obstacle avoidance
 int obstacleDistance = 20;
 
+int irThreshold = 400;
 
 // ================= SETUP =================
 void setup() {
@@ -94,8 +95,9 @@ void followPath() {
   // Read IR sensors
   // LOW usually means "detecting surface"
   // HIGH usually means "no surface"
-  int left = digitalRead(IR_LEFT);
-  int right = digitalRead(IR_RIGHT);
+
+  int left = analogRead(IR_LEFT);
+  int right = analogRead(IR_RIGHT);
 
   // Both sensors see the path → go straight
   if (left == LOW && right == LOW) {
