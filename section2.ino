@@ -139,24 +139,16 @@ void followPath() {
 // ================= OBSTACLE AVOIDANCE =================
 void avoidObstacle() {
 
-  // Immediately stop to avoid collision
-  stopMotors();
-  delay(200);
+  stopMotors(200); // stop for 200 ms to avoid collision
 
-  // Turn left to avoid obstacle
-  turnLeft();
-  delay(400);
+  turnLeft(400); // turn left
 
-  moveForward();
-  delay(300);
+  moveForward(300); // move forward
 
-  turnRight();
-  delay(400);
+  turnRight(400); // turn right
 
-  moveForward();
-  delay(300);
+  moveForward(300); // bot should be clear, move forward
 
-  stopMotors();
 }
 
 
