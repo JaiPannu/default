@@ -5,4 +5,4 @@ __pycache__/
 
 hackathon-wallet.json
 *.json
-!package.json   # (Exception if you have a JS frontend later)
+!package.json
