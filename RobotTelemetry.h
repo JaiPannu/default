@@ -1,4 +1,4 @@
-#define DEBUG_MODE true       // Set to false for competition run
+#define DEBUG_MODE false       // Set to false for competition run
 #define TELEMETRY_RATE 100    // How often to log in ms (avoid flooding Serial)
 
 // Pin Definitions (Adjust to match your wiring)
