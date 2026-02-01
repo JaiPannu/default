@@ -65,13 +65,13 @@ void loop() {
   
   string colour = detectColour();
 
-  if (colour == "red") {
+  if (colour == "red" or colour == "blue") {
     sweepCount = 0;
     sweepDirection = -1;
     moveForward(20);
     return;
   }
-
+  /*
   if (colour == "blue" && !boxPickedUp) {
     pickUpBox();
     return;
@@ -81,7 +81,8 @@ void loop() {
     dropBox();
     return;
   }
-
+  */
+  
   if (sweepDirection == -1) {
     turnLeft(sweepStep);
   } else {
