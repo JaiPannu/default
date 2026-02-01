@@ -1,11 +1,8 @@
 // ================= MOTOR DRIVER PINS =================
-// ENA / ENB control motor speed via PWM
 // IN pins control motor direction
-const int ENA = 5;   // Left motor speed
 const int IN1 = 8;   // Left motor direction pin 1
 const int IN2 = 9;   // Left motor direction pin 2
 
-const int ENB = 6;   // Right motor speed
 const int IN3 = 10;  // Right motor direction pin 1
 const int IN4 = 11;  // Right motor direction pin 2
 
@@ -43,11 +40,6 @@ const int ARM_PIN  = 12;
 const int CLAW_PIN = 13; 
 
 // ================= MOVEMENT PARAMETERS =================
-// Base forward speed (tune for stability vs speed)
-int baseSpeed = 150;
-
-// Speed difference when turning
-int turnSpeed = 120;
 
 // Distance threshold (cm) to trigger obstacle avoidance
 int obstacleDistance = 20;
@@ -103,12 +95,6 @@ void loop() {
 
   // Measure distance to obstacle in front
   long distance = readUltrasonic();
-
-  // priority 0: adjust speed based on distance
-  baseSpeed = distance + 100;
-  if (baseSpeed > 255) {
-    baseSpeed = 255; // Cap at max PWM value
-  }
 
   // PRIORITY 1: obstacle avoidance
   // If something is detected within threshold distance,
@@ -301,9 +287,6 @@ void moveForward(int duration) {
   digitalWrite(IN3, HIGH);
   digitalWrite(IN4, LOW);
 
-  analogWrite(ENA, baseSpeed);
-  analogWrite(ENB, baseSpeed);
-
   // Execute movement for specified duration
   delay(duration);
   stopMotors(0);
@@ -317,9 +300,6 @@ void moveBackward(int duration) {
 
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, HIGH);
-
-  analogWrite(ENA, baseSpeed);
-  analogWrite(ENB, baseSpeed);
 
   // Execute movement for specified duration
   delay(duration);
@@ -335,9 +315,6 @@ void turnLeft(int duration) {
   digitalWrite(IN3, HIGH);
   digitalWrite(IN4, LOW);
 
-  analogWrite(ENA, turnSpeed);
-  analogWrite(ENB, turnSpeed);
-
   delay(duration);
   stopMotors(0);
 }
@@ -350,9 +327,6 @@ void turnRight(int duration) {
   // Right motor backward
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, HIGH);
-
-  analogWrite(ENA, turnSpeed);
-  analogWrite(ENB, turnSpeed);
 
   delay(duration);
   stopMotors(0);

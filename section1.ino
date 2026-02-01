@@ -32,9 +32,6 @@ const int ARM_PIN  = 12;
 const int CLAW_PIN = 13;
 
 // ================= SECTION 1 PARAMETERS =================
-// Higher speed needed for the ramp!
-int cruiseSpeed = 180;  // Normal driving
-int rampSpeed = 255;    // Max power for the shot approach
 
 // State tracking
 bool targetReached = false;
@@ -121,7 +118,7 @@ void loop() {
 void followPath(String currentColor) {
   // GREEN or BLACK PATH: Move forward along the line
   if (currentColor == "green" || currentColor == "black") {
-    moveForward(cruiseSpeed);
+    moveForward();
     delay(50);
   }
   
@@ -184,7 +181,7 @@ void shootBall() {
   // First, move forward until black is detected (on the ramp)
   armDown();    // Lower arm to avoid interference
   while (detectColour() != "black") {
-    moveForward(cruiseSpeed);
+    moveForward();
     delay(50);  // Small delay for sensor reading
   }
   
@@ -193,8 +190,8 @@ void shootBall() {
 
   // Now proceed with the shot sequence
   
-  // The "Bump": Move forward at cruise speed to roll the ball
-  moveForward(cruiseSpeed);
+  // The "Bump": Move forward to roll the ball
+  moveForward();
   delay(800);     // Adjust this duration based on how far you want to roll it
 
   // Stop
@@ -237,16 +234,14 @@ void dropBox() {
 }
 
 // ================= MOTOR FUNCTIONS =================
-void moveForward(int speed) {
+void moveForward() {
   digitalWrite(IN1, HIGH); digitalWrite(IN2, LOW);
   digitalWrite(IN3, HIGH); digitalWrite(IN4, LOW);
-  analogWrite(ENA, speed); analogWrite(ENB, speed);
 }
 
 void moveBackward() {
   digitalWrite(IN1, LOW); digitalWrite(IN2, HIGH);
   digitalWrite(IN3, LOW); digitalWrite(IN4, HIGH);
-  analogWrite(ENA, cruiseSpeed); analogWrite(ENB, cruiseSpeed);
 }
 
 void turnLeft() {
