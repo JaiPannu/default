@@ -54,6 +54,9 @@ int obstacleDistance = 20;
 
 int irThreshold = 400; // determining when it is too left or too right
 
+// BALL PICKUP BOOLEAN
+bool boxPickedUp = false;
+
 // ================= SETUP =================
 void setup() {
   Serial.begin(9600);
@@ -120,13 +123,54 @@ void loop() {
 
 }
 
+// ====================== BALL PICKUP/DROP =================
+void pickUpBox() {
+  // box is 90 deg to the right so we must rotate right
+
+  turnRight(500); // turn right for 500 ms (FIX TS)
+  
+  moveClaw(90);   // open claw
+  moveArm(100);   // lower arm
+  moveClaw(30);   // close claw to grab box
+  moveArm(60);    // lift box with arm
+
+  turnLeft(500); // turn left to original orientation (FIX TS)
+
+  ballPickedUp = true;
+}
+
+void dropBox() {
+  // box is 90 deg to the right so we must rotate right
+
+  turnLeft(500); // turn left for 500 ms (FIX TS)
+  
+  moveArm(100);   // lower arm
+  moveClaw(90);   // open claw to release box
+  moveArm(60);    // lift arm back up
+
+  turnRight(500); // turn right to original orientation (FIX TS)
+
+  boxPickedUp = false;
+}
 
 // ================= PATH FOLLOWING =================
 void followPath() {
-   if (redDetected()) {
+  string colour = detectColour();
+
+  if (colour == "red") {
     sweepCount = 0;
     sweepDirection = -1;
     moveForward(20);
+    return;
+  }
+
+  if (colour == "blue" && !boxPickedUp) {
+    pickUpBox();
+    return;
+  }
+
+  if (colour == "blue" && boxPickedUp) {
+    dropBox();
     return;
   }
 
@@ -166,7 +210,7 @@ void avoidObstacle() {
   moveForward(100);
   turnRight(400);
 
-  while(!(redDetected())){
+  while(detectColour() != "red"){
     moveForward(2);
   }
 
@@ -218,7 +262,7 @@ unsigned long readBlueRaw() {
   return pulseIn(out, LOW);
 }
 
-bool redDetected() {
+string detectColour() {
   unsigned long red   = readRedRaw();
   unsigned long green = readGreenRaw();
   unsigned long blue  = readBlueRaw();
@@ -229,9 +273,13 @@ bool redDetected() {
   Serial.print(" B: "); Serial.println(blue);
 
   if (red < green && red < blue && red < 200) {
-    return true;
+    return "red";
+  } else if (green < red && green < blue && green < 200) {
+    return "green";
+  } else if (blue < red && blue < green && blue < 200) {
+    return "blue";
   }
-  return false;
+  return "null";
 }
 
 // Read IR Right function
@@ -279,33 +327,33 @@ void moveBackward(int duration) {
 }
 
 void turnLeft(int duration) {
+  // Left motor backward
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, HIGH);
 
-  // Slow left motor, fast right motor
-  digitalWrite(IN1, HIGH);
-  digitalWrite(IN2, LOW);
+  // Right motor forward
   digitalWrite(IN3, HIGH);
   digitalWrite(IN4, LOW);
 
   analogWrite(ENA, turnSpeed);
-  analogWrite(ENB, baseSpeed);
+  analogWrite(ENB, turnSpeed);
 
-  // Execute turn for specified duration
   delay(duration);
   stopMotors(0);
 }
 
 void turnRight(int duration) {
-
-  // Fast left motor, slow right motor
+  // Left motor forward
   digitalWrite(IN1, HIGH);
   digitalWrite(IN2, LOW);
-  digitalWrite(IN3, HIGH);
-  digitalWrite(IN4, LOW);
 
-  analogWrite(ENA, baseSpeed);
+  // Right motor backward
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, HIGH);
+
+  analogWrite(ENA, turnSpeed);
   analogWrite(ENB, turnSpeed);
 
-  // Execute turn for specified duration
   delay(duration);
   stopMotors(0);
 }
