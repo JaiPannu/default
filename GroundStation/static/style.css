@@ -30,6 +30,34 @@ body {
     line-height: 1.6;
 }
 
+/* ===== DEBUG BANNER ===== */
+.debug-banner {
+    background: linear-gradient(135deg, #f59e0b, #ef4444);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    box-shadow: 0 5px 15px rgba(245, 158, 11, 0.3);
+}
+
+.debug-link {
+    color: white;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.4rem 1rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+}
+
+.debug-link:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
 /* ===== NAVBAR ===== */
 .navbar {
     background-color: var(--bg-secondary);

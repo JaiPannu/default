@@ -2,6 +2,14 @@
 
 {% block content %}
 <div class="dashboard-container">
+    <!-- DEBUG MODE BANNER -->
+    {% if debug_mode %}
+    <div class="debug-banner">
+        <span>🔧 DEBUG MODE ACTIVE</span>
+        <a href="/debug" class="debug-link">Control Panel</a>
+    </div>
+    {% endif %}
+
     <!-- Header Section -->
     <div class="dashboard-header">
         <div class="race-status">
